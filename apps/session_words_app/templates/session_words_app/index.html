@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Session Words</title>
+    <style>
+        .container{
+            width: 500px;
+            margin: 0 auto;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/process" method="POST">
+        {% csrf_token %}
+            <h2>
+                <p>Add a new word</p>
+                <p><input type='text' name='word'></p>
+            </h2>
+            <p>Choose color</p>
+            <input type="hidden" name="color" value="black">
+            <p><input type="radio" name="color" value="red"> Red</p>
+            <p><input type="radio" name="color" value="green"> Green</p>
+            <p><input type="radio" name="color" value="blue"> Blue</p>
+            <input type="hidden" name="font" value='15px'>
+            <p><input type="checkbox" name="font" value='25px'> show in BIG fonts!</p>
+            <input type='submit' value='Add to Session'>
+            <a href="/reset">Clear Session</a>
+            {% for key in request.session.dict %}
+            <p><span style="color: {{ key.color }}; font-size: {{ key.font }}">{{ key.word }}</span> - added on {{ key.time }} </p>
+            {% endfor %}
+        </form>
+    </div>
+</body>
+</html>
+
+{request.session.activity|safe}
